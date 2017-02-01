@@ -3,13 +3,13 @@
 Useful crypto tools for CTF
 ## Tech
 
-#### Prime-factorize methods
+### Prime-factorize methods
 - Small division
 - Miller-Rabin test
 - Pollard's rho algorithm
 - Felmat method
 
-#### RSA
+### RSA
 Implement
 - Encrypt/Decrypt
 - Multi-prime RSA
@@ -24,7 +24,7 @@ Attacks
 - Franklin-Reiter related message attack
 - Chosen cihpertext attack
 
-#### Elliptic Curve
+### Elliptic Curve
 TODO
 
 ## Installation
@@ -33,8 +33,8 @@ Requirements
 - GmPy
 
 ```
-git clone git@github.com:sonickun/cryptools.git
-python setup.py install
+$ git clone git@github.com:sonickun/cryptools.git
+$ python setup.py install
 ```
 
 ## Usage
