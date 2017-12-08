@@ -25,7 +25,7 @@ Attacks
 - Chosen cihpertext attack
 
 ### Elliptic Curve
-TODO
+TODO.
 
 ## Installation
 Requirements
