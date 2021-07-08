@@ -99,8 +99,8 @@ def random_prime(bits):
 # - http://inaz2.hatenablog.com/entry/2016/01/15/011138
 
 
-def low_public_exponent_attack(c, e):
-    bound = root(n, e)[0]
+def low_public_exponent_attack(c, m, e):
+    bound = root(m, e)[0]
     m = root(c, e)[0]
     return m, bound
 
