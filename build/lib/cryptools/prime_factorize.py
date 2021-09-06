@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from random import randint
-from fractions import gcd
+from math import gcd
 
 def isqrt(n):
     x = n
@@ -54,7 +54,7 @@ def miller_rabin(n, k=20):
 def pollard_rho(n):
     is_prime = miller_rabin(n)
     if is_prime:
-        print "%d is prime." % n
+        print("%d is prime." % n)
         return
     else:
         x, y, d = 2, 2, 1
