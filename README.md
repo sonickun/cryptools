@@ -28,12 +28,15 @@ Attacks
 TODO.
 
 ## Installation
-Requirements
+### Requirements
 - PyCrypto
 - GmPy
+```
+$ pip install -r requirements.txt
+```
 
 ```
-$ git clone git@github.com:sonickun/cryptools.git
+$ git clone https://github.com/Otach/cryptools.git
 $ python setup.py install
 ```
 
