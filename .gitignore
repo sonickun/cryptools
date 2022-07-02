@@ -2,3 +2,5 @@
 cryptools.egg-info
 desktop.ini
 __pycache__/
+dist/
+build/
