@@ -1,14 +1,12 @@
+#!/usr/bin/env python3
 from cryptools import *
-import sys
-import random
-import gmpy
 
 
 def rsa_test():
     p = 997147
     q = 876331
     n = p * q
-    m = "hoge"
+    m = b"hoge"
     rsa = RSA(65537, n, p, q)
     c = rsa.encrypt(bytes_to_long(m))
     print(c)
@@ -49,7 +47,7 @@ def hasdats_test():
 
     print("collecting e=%d pairs of (c, n)" % e)
     pairs = []
-    for i in xrange(e):
+    for i in range(e):
         p = random_prime(1024)
         q = random_prime(1024)
         n = p * q
@@ -103,3 +101,9 @@ def cca_test():
 
 
 rsa_test()
+common_mod_test()
+wieners_test()
+hasdats_test()
+multi_test()
+franklin_test()
+cca_test()
