@@ -15,6 +15,3 @@ class ElGamal(object):
 
     def decrypt(c):
         return
-
-    pass
-

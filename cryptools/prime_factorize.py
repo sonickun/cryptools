@@ -3,12 +3,13 @@
 from random import randint
 from math import gcd
 
+
 def isqrt(n):
     x = n
     y = (x + 1) // 2
     while y < x:
         x = y
-        y = (x + n//x) // 2
+        y = (x + n // x) // 2
     return x
 
 
@@ -22,29 +23,29 @@ def small_division(n):
 
     i = 6
     while i < k:
-        if n % (i-1) == 0:
-            return i-1
-        if n % (i+1) == 0:
-            return i+1
+        if n % (i - 1) == 0:
+            return i - 1
+        if n % (i + 1) == 0:
+            return i + 1
         i += 6
 
 
 def miller_rabin(n, k=20):
-    s, d = 0, n-1
+    s, d = 0, n - 1
 
     while d % 2 == 0:
         s += 1
         d /= 2
 
-    for i in xrange(k):
-        a = randint(2, n-1)
+    for i in range(k):
+        a = randint(2, n - 1)
         x = pow(a, d, n)
         if x == 1:
             continue
-        for r in xrange(s):
-            if x == n-1:
+        for r in range(s):
+            if x == n - 1:
                 break
-            x = (x*x) % n
+            x = (x * x) % n
         else:
             return False
 
@@ -60,10 +61,10 @@ def pollard_rho(n):
         x, y, d = 2, 2, 1
 
         while d == 1:
-            x = (x*x + 1) % n
-            y = (y*y + 1) % n
-            y = (y*y + 1) % n
-            d = gcd(abs(x-y), n)
+            x = (x * x + 1) % n
+            y = (y * y + 1) % n
+            y = (y * y + 1) % n
+            d = gcd(abs(x - y), n)
 
         if d != n:
             return d
@@ -74,13 +75,13 @@ def is_square(n):
         return False
 
     x = isqrt(n)
-    return x*x == n
+    return x * x == n
 
 
 def fermat(n):
     a = isqrt(n)
-    b2 = a*a - n
+    b2 = a * a - n
     while not is_square(b2):
         a += 1
-        b2 = a*a - n
+        b2 = a * a - n
     return a - isqrt(b2)

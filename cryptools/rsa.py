@@ -3,6 +3,7 @@ from gmpy import root, gcdext, invert, is_square, is_prime
 from random import getrandbits
 from functools import reduce
 
+
 class RSA(object):
 
     def __init__(self, e, n, p, q):
@@ -26,11 +27,9 @@ class RSA(object):
         d = invert(e, phi)
         return d
 
-    pass
-
 
 class MultiPrimeRSA(RSA):
-    
+
     def __init__(self, e, n, pairs):
         self.e = e
         self.n = n
@@ -42,7 +41,7 @@ class MultiPrimeRSA(RSA):
         a_ary = []
         for p, k in self.pairs:
             pk = p ** k
-            phi = pk * (p-1)//p
+            phi = pk * (p - 1) // p
             d = invert(self.e, phi)
             mk = pow(c, d, pk)
             n_ary.append(pk)
@@ -54,11 +53,9 @@ class MultiPrimeRSA(RSA):
     def get_private_exponent(e, pairs):
         phi = 1
         for p, k in pairs:
-            phi *= (p**(k-1) * (p-1))
+            phi *= (p ** (k - 1) * (p - 1))
         d = invert(e, phi)
         return d
-
-    pass
 
 
 def egcd(a, b):
@@ -67,6 +64,7 @@ def egcd(a, b):
     else:
         g, y, x = egcd(b % a, a)
         return (g, x - (b // a) * y, y)
+
 
 def modinv(a, m):
     g, x, y = egcd(a, m)
@@ -80,7 +78,7 @@ def modinv(a, m):
 def chinese_remainder(pairs):
     sum = 0
     n = map(lambda x: x[0], pairs)
-    prod = reduce(lambda a, b: a*b, n)
+    prod = reduce(lambda a, b: a * b, n)
 
     for n_i, a_i in pairs:
         p = prod // n_i
@@ -94,8 +92,9 @@ def random_prime(bits):
         if is_prime(n):
             return n
 
-########## Attack for RSA ##########
-
+####################################
+#          Attack for RSA          #
+####################################
 # Refered:
 # - http://inaz2.hatenablog.com/entry/2016/01/15/011138
 
@@ -132,7 +131,7 @@ def wieners_attack(e, n):
         while d:
             q = n // d
             cf.append(q)
-            n, d = d, n-d*q
+            n, d = d, n - d * q
         return cf
 
     def convergents_of_contfrac(cf):
@@ -142,13 +141,13 @@ def wieners_attack(e, n):
         >>> list(convergents_of_contfrac([4, 2, 6, 7]))
         [(4, 1), (9, 2), (58, 13), (415, 93)]
         """
-        n0, n1 = cf[0], cf[0]*cf[1]+1
+        n0, n1 = cf[0], cf[0] * cf[1] + 1
         d0, d1 = 1, cf[1]
         yield (n0, d0)
         yield (n1, d1)
 
         for i in range(2, len(cf)):
-            n2, d2 = cf[i]*n1+n0, cf[i]*d1+d0
+            n2, d2 = cf[i] * n1 + n0, cf[i] * d1 + d0
             yield (n2, d2)
             n0, n1 = n1, n2
             d0, d1 = d1, d2
@@ -159,12 +158,12 @@ def wieners_attack(e, n):
     for k, d in convergents:
         if k == 0:
             continue
-        phi, rem = divmod(e*d-1, k)
+        phi, rem = divmod(e * d - 1, k)
         if rem != 0:
             continue
         s = n - phi + 1
         # check if x^2 - s*x + n = 0 has integer roots
-        D = s*s - 4*n
+        D = s * s - 4 * n
         if D > 0 and is_square(D):
             return d
 
@@ -178,8 +177,8 @@ def hastads_broadcast_attack(e, pairs):
 # https://pdfs.semanticscholar.org/899a/4fdc048102471875e24f7fecb3fb8998d754.pdf
 def franklin_reiter_related_message_attack(e, n, c1, c2, a, b):
     assert e == 3 and b != 0
-    frac = b * (c2 + 2*pow(a,3)*c1 - pow(b,3))
-    denom = a * (c2 - pow(a,3)*c1 + 2*pow(b,3))
+    frac = b * (c2 + 2 * pow(a, 3) * c1 - pow(b, 3))
+    denom = a * (c2 - pow(a, 3) * c1 + 2 * pow(b, 3))
     m = (frac * invert(denom, n)) % n
     return m
 
@@ -187,4 +186,3 @@ def franklin_reiter_related_message_attack(e, n, c1, c2, a, b):
 def chosen_ciphertext_attack(e, n, r, mr):
     m = (mr * invert(r, n)) % n
     return m
- 
