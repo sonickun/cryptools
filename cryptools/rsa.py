@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from gmpy import root, gcdext, invert, is_square, is_prime
 from random import getrandbits
+from functools import reduce
 
 class RSA(object):
 
@@ -41,7 +42,7 @@ class MultiPrimeRSA(RSA):
         a_ary = []
         for p, k in self.pairs:
             pk = p ** k
-            phi = pk * (p-1)/p
+            phi = pk * (p-1)//p
             d = invert(self.e, phi)
             mk = pow(c, d, pk)
             n_ary.append(pk)
@@ -82,7 +83,7 @@ def chinese_remainder(pairs):
     prod = reduce(lambda a, b: a*b, n)
 
     for n_i, a_i in pairs:
-        p = prod / n_i
+        p = prod // n_i
         sum += a_i * invert(p, n_i) * p
     return sum % prod
 
@@ -146,7 +147,7 @@ def wieners_attack(e, n):
         yield (n0, d0)
         yield (n1, d1)
 
-        for i in xrange(2, len(cf)):
+        for i in range(2, len(cf)):
             n2, d2 = cf[i]*n1+n0, cf[i]*d1+d0
             yield (n2, d2)
             n0, n1 = n1, n2
